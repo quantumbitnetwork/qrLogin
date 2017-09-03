@@ -1,5 +1,7 @@
 <?php
 use Rayac\qrlogin\cookieGenerator;
+use Rayac\qrlogin\Database;
+use Rayac\qrlogin\urlGenerator;
 
 
 require_once '../vendor/autoload.php';
@@ -11,15 +13,15 @@ session_start();
 $dotenv = new Dotenv\Dotenv('../');
 $dotenv->load();
 
+$pdo = Database::getPDO();
 
-
-
+$url = new urlGenerator($pdo);
 
 $route = new League\Route\RouteCollection;
 
 
 $route->map('GET', '/', 'Rayac\qrlogin\controllers\homeController::action');
-$route->map('GET', '/' . session_id(), 'Rayac\qrlogin\controllers\loginController::action');
+$route->map('GET', '/' . $url->getURL()["url"], 'Rayac\qrlogin\controllers\loginController::action');
 
 
 

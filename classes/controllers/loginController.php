@@ -11,15 +11,16 @@ namespace Rayac\qrlogin\controllers;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 
 class loginController
 {
     public function action (ServerRequestInterface $request, ResponseInterface $response)
     {
-        $loader = new \Twig_Loader_Filesystem('../views/twig');
-        $twig = new \Twig_Environment($loader, array('cache' => false));
+        $loader = new Twig_Loader_Filesystem('../views/twig');
+        $twig = new Twig_Environment($loader, array('cache' => false));
 
         $response->getBody()->write($twig->render("login.twig"));
         return $response;

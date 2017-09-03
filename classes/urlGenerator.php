@@ -9,6 +9,8 @@
 namespace Rayac\qrlogin;
 
 
+use PDO;
+
 class urlGenerator
 {
     private $pdo;
@@ -20,16 +22,43 @@ class urlGenerator
         $this->pdo = $pdoinput;
     }
 
+    private function isSessionUsed()
+    {
+        $stmt = $this->pdo->prepare("SELECT phpSession FROM testing WHERE phpSession = :phpSession");
+        $stmt->execute(['phpSession' => session_id()]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result["phpSession"] == null){
+            return false;
+        }
+
+        return true;
+    }
+
+    public function createURL()
+    {
+        if(!$this->isSessionUsed()) {
+            $randomUrl = md5(time());
+
+            $stmt = $this->pdo->prepare("INSERT INTO testing SET url = :url , phpSession = :phpSession");
+            $stmt->execute([
+                'url' => $randomUrl,
+                'phpSession' => session_id()
+            ]);
+        }
+    }
+
     public function setURL()
     {
 
     }
 
-    public function getURL($session)
+
+    public function getURL()
     {
-        $stmt = $this->pdo->prepare("SELECT url FROM testing WHERE id = :id");
-        $stmt->execute(['id' => $session]);
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare("SELECT url FROM testing WHERE phpSession = :phpSession");
+        $stmt->execute(['phpSession' => session_id()]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $result;
     }

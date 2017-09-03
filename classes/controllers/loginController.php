@@ -7,28 +7,21 @@
  */
 
 namespace Rayac\qrlogin\controllers;
-/*
-use Psecio\Gatekeeper\Gatekeeper;
-use Rayac\skola\Database;
-use Rayac\skola\post;
-use Rayac\skola\user;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
-*/
+
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 
 
-class homeController
+class loginController
 {
     public function action (ServerRequestInterface $request, ResponseInterface $response)
     {
         $loader = new \Twig_Loader_Filesystem('../views/twig');
         $twig = new \Twig_Environment($loader, array('cache' => false));
 
-        $response->getBody()->write($twig->render("home.twig", ["sessionID" => session_id()]));
+        $response->getBody()->write($twig->render("login.twig"));
         return $response;
     }
 

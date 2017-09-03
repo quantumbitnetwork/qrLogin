@@ -15,7 +15,7 @@ $route = new League\Route\RouteCollection;
 
 
 $route->map('GET', '/', 'Rayac\qrlogin\controllers\homeController::action');
-$route->map('GET', '/{anything}', 'Rayac\qrlogin\controllers\homeController::notFound');
+$route->map('GET', '/' . session_id(), 'Rayac\qrlogin\controllers\loginController::action');
 
 
 

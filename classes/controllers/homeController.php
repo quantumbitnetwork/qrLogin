@@ -18,7 +18,9 @@ use Twig_Loader_Filesystem;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
+use Rayac\qrlogin\Database;
+use Rayac\qrlogin\urlGenerator;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 
 class homeController
@@ -28,7 +30,10 @@ class homeController
         $loader = new \Twig_Loader_Filesystem('../views/twig');
         $twig = new \Twig_Environment($loader, array('cache' => false));
 
-        $response->getBody()->write($twig->render("home.twig", ["sessionID" => session_id()]));
+        $pdo = Database::getPDO();
+        $url = new urlGenerator($pdo);
+
+        $response->getBody()->write($twig->render("home.twig", ["sessionID" => session_id(), "url" => $url->getURL(1)["url"]]));
         return $response;
     }
 

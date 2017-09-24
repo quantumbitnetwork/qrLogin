@@ -35,8 +35,7 @@ class homeController
         $pdo = Database::getPDO();
         $url = new urlGenerator($pdo);
 
-        $url->createURL();
-
+        
         $response->getBody()->write($twig->render("home.twig", ["sessionID" => session_id(), "url" => $url->getURL()["url"]]));
         return $response;
     }

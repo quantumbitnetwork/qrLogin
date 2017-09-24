@@ -3,6 +3,13 @@
 {% block title %}Home{% endblock %}
 {% block body %}
     <h1>This is a test</h1>
-    <p>{{ sessionID }}</p>
-    <p>{{ url }}</p>
+    {% if not owner %}
+        <p>SESSION: {{ sessionID }}</p>
+        <p>URL: {{ url }}</p>
+    {% endif %}
+    {% if owner %}
+        <p>Logged in as {{ owner }}</p>
+        <br>
+        <a href="/logout" style="color:darkred">Logout</a>
+    {% endif %}
 {% endblock %}

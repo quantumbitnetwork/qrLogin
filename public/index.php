@@ -21,7 +21,10 @@ $route = new League\Route\RouteCollection;
 
 
 $route->map('GET', '/', 'Rayac\qrlogin\controllers\homeController::action');
-$route->map('GET', '/' . $url->getURL()["url"], 'Rayac\qrlogin\controllers\loginController::action');
+$route->map('GET', '/' . $url->getURL()["url"] . '/{username}', 'Rayac\qrlogin\controllers\loginController::action');
+$route->map('GET', '/logout', 'Rayac\qrlogin\controllers\loginController::logout');
+
+
 
 
 

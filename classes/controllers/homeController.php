@@ -20,6 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rayac\qrlogin\Database;
 use Rayac\qrlogin\urlGenerator;
+use Rayac\qrlogin\user;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
@@ -35,7 +36,12 @@ class homeController
         $pdo = Database::getPDO();
         $url = new urlGenerator($pdo);
 
-        
+        $user = new user($pdo);
+        if($user->isLoggedIn()){
+            $response->getBody()->write($twig->render("home.twig", ["owner" => $user->getOwner()]));
+            return $response;
+        }
+
         $response->getBody()->write($twig->render("home.twig", ["sessionID" => session_id(), "url" => $url->getURL()["url"]]));
         return $response;
     }

@@ -20,6 +20,7 @@ class urlGenerator
     public function __construct($pdoinput)
     {
         $this->pdo = $pdoinput;
+        $this->createURL();
     }
 
     private function isSessionUsed()
@@ -46,11 +47,6 @@ class urlGenerator
                 'phpSession' => session_id()
             ]);
         }
-    }
-
-    public function setURL()
-    {
-
     }
 
 

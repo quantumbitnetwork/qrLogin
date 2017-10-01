@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}Home{% endblock %}
+{% block inHead %}
+    <script src="js/qrcode.min.js" type="application/javascript"></script>
+{% endblock %}
 {% block body %}
     <h1>This is a test</h1>
     {% if not owner %}
         <p>SESSION: {{ sessionID }}</p>
         <p>URL: {{ url }}</p>
+        <br>
+        <div id="qrcode"></div>
     {% endif %}
     {% if owner %}
         <p>Logged in as {{ owner }}</p>
@@ -13,3 +18,15 @@
         <a href="/logout" style="color:darkred">Logout</a>
     {% endif %}
 {% endblock %}
+{% block footer %}
+    <script type="application/javascript">
+    var qrcode = new QRCode("qrcode");
+
+    function makeCode () {
+        var theCode = "{{ url }}";
+
+        qrcode.makeCode(theCode);
+    }
+
+    makeCode();
+</script>{% endblock %}
